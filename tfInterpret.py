@@ -3,12 +3,25 @@
 import openai
 import argparse
 import textwrap
+import keyring
+import sys
 
-# We can obfuscate this later using secrets manager or something. For now, it's fine.
-openai.api_key = 'YOUR_API_KEY_HERE'
+SERVICE_ID = 'my_application'
+USER_ID = 'openai'
 
-# Set your maximum token limit. gpt-3.5-turbo-16k has a 16k token limit. We can raise or lower this depending on the model we use.
 TOKEN_LIMIT = 8000
+
+
+def get_api_key():
+    api_key = keyring.get_password(SERVICE_ID, USER_ID)
+    if api_key is None:
+        print("No API key found. Please enter your OpenAI API key:")
+        api_key = input()
+        keyring.set_password(SERVICE_ID, USER_ID, api_key)
+    return api_key
+
+
+openai.api_key = get_api_key()
 
 
 def read_terraform_plan(file_path):
@@ -31,16 +44,14 @@ def interpret_plan_chunk(chunk, chunk_number, total_chunks):
         {"role": "system", "content": "You are a helpful assistant that translates Terraform plans into simple terms. You should provide a detailed yet easily understandable explanation of all the changes that will be made, highlighting any additions, deletions, or modifications. Avoid explaining what Terraform is doing or details about the '-out' option. Just state the facts and provide a brief analysis."},
         {"role": "user", "content": f"Please explain this part of the Terraform plan concisely and factually:\n{chunk}"},
         {"role": "user", "content": "What resources will be added, modified, or deleted? Provide a brief and factual explanation."},
-        # {"role": "user", "content": "What is the impact of these changes? Provide a brief and factual analysis."} We don't need this question for now
     ]
 
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",  # Or use "gpt-3.5-turbo" or any other available model
+        model="gpt-3.5-turbo-16k",
         messages=messages,
         max_tokens=TOKEN_LIMIT,
     )
 
-    # Add chunk number to the response and include the token usage
     result = f"Chunk {chunk_number} of {total_chunks}:\n{response['choices'][0]['message']['content'].strip()}\n\n---\nTokens used for this chunk: {response['usage']['total_tokens']}\n---"
     return result
 
@@ -51,7 +62,11 @@ def main():
     parser.add_argument(
         'file', type=str, help='The Terraform plan output file.')
 
-    args = parser.parse_args()
+    try:
+        args = parser.parse_args()
+    except SystemExit:
+        print("Error: A file argument is required. Please provide the path to the Terraform plan output file as .txt")
+        return
 
     print("Reading and analyzing your plan output...")
 
