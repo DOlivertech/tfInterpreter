@@ -8,8 +8,8 @@ tfInterpreter is a python based Terraform Plan Interpreter that gives you clear 
 - [ ] Save model on both occasions
 - [x] ~~Use Keyring as a system agnostic way of storing the openAI key and pass this in as an input on run.~~
 - [ ] Provide Keyring install instructions - system agnostic
-- [ ] help File
-- [ x ] help File argument for clearing key.
+- [x] ~~help File~~
+- [x] ~~help File argument for clearing key.~~
 - [ ] Provide packages from CI
 - [ ] Implement Infracost
 
