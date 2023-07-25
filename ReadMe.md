@@ -7,7 +7,7 @@ tfInterpreter is a python based Terraform Plan Interpreter that gives you clear 
 - [ ] Allow changing model with argument
 - [ ] Save model on both occasions
 - [x] ~~Use Keyring as a system agnostic way of storing the openAI key and pass this in as an input on run.~~
-- [ ] Provide Keyring install instructions - system agnostic
+- [x] ~~Provide Keyring install instructions - system agnostic~~
 - [x] ~~help File~~
 - [x] ~~help File argument for clearing key.~~
 - [ ] Provide packages from CI
@@ -15,7 +15,90 @@ tfInterpreter is a python based Terraform Plan Interpreter that gives you clear 
 
 # Installation
 
+---
 
+## Installing Keyring ( Critical Component for tfInterpreter)
+
+`keyring` is a Python package. To install it, you'll need to have Python and `pip` (the Python package installer) installed on your system. Here are the instructions for installing `keyring` on various operating systems:
+
+### Windows
+
+1. Open the Command Prompt (cmd.exe).
+
+2. Install the `keyring` library with `pip`:
+
+   ```shell
+   pip install keyring
+   ```
+
+### macOS
+
+1. Open the Terminal app.
+
+2. If you don't have Homebrew installed, you can install it by pasting the following command in the Terminal and pressing Enter:
+
+   ```shell
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+
+3. Once Homebrew is installed, you can install Python 3, which includes `pip`, using the following command:
+
+   ```shell
+   brew install python
+   ```
+
+4. Install the `keyring` library with `pip`:
+
+   ```shell
+   pip3 install keyring
+   ```
+
+### Ubuntu (or other Debian-based Linux distributions)
+
+1. Open the Terminal.
+
+2. If you don't have `pip`, install it using the following commands:
+
+   ```shell
+   sudo apt update
+   sudo apt install python3-pip
+   ```
+
+3. Install the `keyring` library with `pip`:
+
+   ```shell
+   pip3 install keyring
+   ```
+
+### Fedora (or other RPM-based Linux distributions)
+
+1. Open the Terminal.
+
+2. If you don't have `pip`, install it using the following commands:
+
+   ```shell
+   sudo dnf update
+   sudo dnf install python3-pip
+   ```
+
+3. Install the `keyring` library with `pip`:
+
+   ```shell
+   pip3 install keyring
+   ```
+
+## Checking the Installation
+
+To check if `keyring` was installed correctly, you can run the following command in your command line:
+
+```shell
+python -c "import keyring; print(keyring.__version__)"
+```
+
+If `keyring` is installed, this will print the version of `keyring` that is installed. If it's not installed, you'll see an error message.
+
+---
+## Installing tfInterpreter
 
 ```
 chmod +x tfInterpret.py
