@@ -3,7 +3,8 @@
 tfInterpreter is a python based Terraform Plan Interpreter that gives you clear and conscise explanations of your terraform plans.
 
 # Features to Add
-- [ ]Allow input of Model
+
+- [ ] Allow input of Model
 - [ ] Allow changing model with argument
 - [ ] Save model on both occasions
 - [x] ~~Use Keyring as a system agnostic way of storing the openAI key and pass this in as an input on run.~~
